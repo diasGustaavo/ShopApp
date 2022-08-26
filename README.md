@@ -1,4 +1,4 @@
-# Meals App
+# Shop App
 
 A shop app made in Flutter with [provider](https://pub.dev/packages/provider). 
 
