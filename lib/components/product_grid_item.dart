@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop/exceptions/http_exception.dart';
 import 'package:shop/utils/app_routes.dart';
 
 import '../models/cart.dart';
 import '../models/product.dart';
+import '../models/product_list.dart';
 
 class ProductGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final msg = ScaffoldMessenger.of(context);
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
     return ClipRRect(
@@ -29,8 +32,17 @@ class ProductGridItem extends StatelessWidget {
           backgroundColor: Colors.black87,
           leading: Consumer<Product>(
             builder: (ctx, product, _) => IconButton(
-              onPressed: () {
-                product.toggleFavorite();
+              onPressed: () async {
+                try {
+                  await Provider.of<Product>(
+                    context,
+                    listen: false,
+                  ).toggleFavorite();
+                } catch (error) {
+                  msg.showSnackBar(
+                    SnackBar(content: Text(error.toString())),
+                  );
+                }
               },
               icon: Icon(
                   product.isFavorite ? Icons.favorite : Icons.favorite_border),
