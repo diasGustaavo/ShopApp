@@ -40,7 +40,10 @@ class ProductGridItem extends StatelessWidget {
                   await Provider.of<Product>(
                     context,
                     listen: false,
-                  ).toggleFavorite(auth.token ?? '');
+                  ).toggleFavorite(
+                    auth.token ?? '',
+                    auth.userId ?? '',
+                  );
                 } catch (error) {
                   msg.showSnackBar(
                     SnackBar(content: Text(error.toString())),

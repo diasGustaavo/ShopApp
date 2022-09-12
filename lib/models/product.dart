@@ -6,6 +6,8 @@ import 'package:shop/exceptions/http_exception.dart';
 
 class Product with ChangeNotifier {
   final _baseUrl = 'https://shopapp-ec7b4-default-rtdb.firebaseio.com/products';
+  final _favoriteUrl =
+      'https://shopapp-ec7b4-default-rtdb.firebaseio.com/userFavorites';
   final String id;
   final String name;
   final String description;
@@ -22,16 +24,12 @@ class Product with ChangeNotifier {
     this.isFavorite = false,
   });
 
-  Future<void> toggleFavorite(String token) async {
+  Future<void> toggleFavorite(String token, String userId) async {
     isFavorite = !isFavorite;
     notifyListeners();
-    final response = await http.patch(
-      Uri.parse('$_baseUrl/$id.json?auth=$token'),
-      body: jsonEncode(
-        {
-          "isFavorite": isFavorite,
-        },
-      ),
+    final response = await http.put(
+      Uri.parse('$_favoriteUrl/$userId/$id.json?auth=$token'),
+      body: jsonEncode(isFavorite),
     );
     if (response.statusCode >= 400) {
       isFavorite = !isFavorite;
