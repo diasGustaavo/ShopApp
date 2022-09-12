@@ -7,6 +7,7 @@ import 'package:shop/exceptions/http_exception.dart';
 import 'product.dart';
 
 class ProductList with ChangeNotifier {
+  final String _token;
   final _baseUrl = 'https://shopapp-ec7b4-default-rtdb.firebaseio.com/products';
   List<Product> _items = [];
 
@@ -14,9 +15,11 @@ class ProductList with ChangeNotifier {
   List<Product> get favoriteItems =>
       _items.where((prod) => prod.isFavorite).toList();
 
+  ProductList(this._token, this._items);
+
   Future<void> loadProducts() async {
     _items.clear();
-    final response = await http.get(Uri.parse('$_baseUrl.json'));
+    final response = await http.get(Uri.parse('$_baseUrl.json?auth=$_token'));
     if (response.body == 'null') return;
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((productId, productData) {
@@ -36,7 +39,7 @@ class ProductList with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final response = await http.post(
-      Uri.parse('$_baseUrl.json'),
+      Uri.parse('$_baseUrl.json?auth=$_token'),
       body: jsonEncode(
         {
           "name": product.name,
@@ -65,7 +68,7 @@ class ProductList with ChangeNotifier {
 
     if (index >= 0) {
       await http.patch(
-        Uri.parse('$_baseUrl/${product.id}.json'),
+        Uri.parse('$_baseUrl/${product.id}.json?auth=$_token'),
         body: jsonEncode(
           {
             "name": product.name,
@@ -88,7 +91,7 @@ class ProductList with ChangeNotifier {
       _items.remove(product);
       notifyListeners();
       final response = await http.delete(
-        Uri.parse('$_baseUrl/${product.id}.json'),
+        Uri.parse('$_baseUrl/${product.id}.json?auth=$_token'),
       );
 
       if (response.statusCode >= 400) {

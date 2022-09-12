@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shop/exceptions/http_exception.dart';
 import 'package:shop/utils/app_routes.dart';
 
+import '../models/auth.dart';
 import '../models/cart.dart';
 import '../models/product.dart';
 import '../models/product_list.dart';
@@ -13,6 +14,8 @@ class ProductGridItem extends StatelessWidget {
     final msg = ScaffoldMessenger.of(context);
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context, listen: false);
+    final auth = Provider.of<Auth>(context, listen: false);
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
@@ -37,7 +40,7 @@ class ProductGridItem extends StatelessWidget {
                   await Provider.of<Product>(
                     context,
                     listen: false,
-                  ).toggleFavorite();
+                  ).toggleFavorite(auth.token ?? '');
                 } catch (error) {
                   msg.showSnackBar(
                     SnackBar(content: Text(error.toString())),
