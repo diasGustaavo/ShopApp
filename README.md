@@ -1,6 +1,6 @@
 # Shop App
 
-A shop app made in Flutter with [provider](https://pub.dev/packages/provider). 
+A shop app made in Flutter with [provider](https://pub.dev/packages/provider), [http](https://pub.dev/packages/http), [shared preferences](https://pub.dev/packages/shared_preferences) & [intl](https://pub.dev/packages/intl). 
 
 ![photo1](https://user-images.githubusercontent.com/60455369/186922242-e2e09df7-3696-43bc-b73d-ef15bc2f54e6.PNG)
 ![photo2](https://user-images.githubusercontent.com/60455369/186922249-b16c29c1-492e-4eac-991d-020db42b9081.PNG)
