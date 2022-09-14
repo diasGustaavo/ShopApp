@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop/exceptions/http_exception.dart';
 import 'package:shop/utils/app_routes.dart';
 
 import '../models/auth.dart';
 import '../models/cart.dart';
 import '../models/product.dart';
-import '../models/product_list.dart';
 
 class ProductGridItem extends StatelessWidget {
   @override
@@ -20,8 +18,9 @@ class ProductGridItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         child: GestureDetector(
-          child: Image.network(
-            product.imageUrl,
+          child: FadeInImage(
+            placeholder: AssetImage('assets/images/product-placeholder.png'),
+            image: NetworkImage(product.imageUrl),
             fit: BoxFit.cover,
           ),
           onTap: () {
